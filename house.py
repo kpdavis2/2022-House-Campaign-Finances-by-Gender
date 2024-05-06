@@ -385,4 +385,6 @@ st.markdown("""
     <p>[3] <a href = "https://www.pgpf.org/sites/default/files/US-2050-Race-Gender-and-Money-in-Politics-Campaign-Finance-and-Federal-Candidates-in-the-2018-Midterms.pdf">
         Race, Gender, and Money in Politics: Campaign Finance and Federal Candidates in the
         2018 Midterms</a></p>
+    <p>Data: <a href = "https://www.fec.gov/campaign-finance-data/congressional-candidate-data-summary-tables/?year=2022&segment=12">
+        Federal Election Commission</a></p>
 """, unsafe_allow_html=True)

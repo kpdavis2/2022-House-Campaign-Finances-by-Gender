@@ -59,6 +59,7 @@ st.write("Out of the 435 elected representatives, 124 were women and 311 were me
         28.5% of the house is women.")
 st.write("Out of 950 Democratic candidates, 38% were women. Out of 1,250 Republican\
         candidates, 22% were women.")
+st.sidebar.write("Use the dropdown menus to filter the table and all charts.")
 
 # filter for elected representatives
 winners = house[house["Win?"] == 1]
@@ -361,7 +362,8 @@ st.write("Additionally, Democratic women tend to receive more money from PACs th
          Republican women. This may be because there are much fewer incumbent Republican\
          women than incumbent Democratic women. [[1]](#sources) Also, most of the PACs focused on women\
          donate to Democratic candidates. [[3]](#sources)")
-
+st.sidebar.write("*If a chart is blank, there were no candidates that ran in that\
+                  state/district that were a part of the group the chart is showing.*")
 tab1, tab2 = st.tabs(["All Candidates", "Elected Candidates"])
 with tab1:
     st.markdown("<p style='text-align: center;'>Campaign Receipts by Contribution\

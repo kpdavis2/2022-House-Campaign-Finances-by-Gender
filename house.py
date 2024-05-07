@@ -394,3 +394,8 @@ st.markdown("""
     <p>Data: <a href = "https://www.fec.gov/campaign-finance-data/congressional-candidate-data-summary-tables/?year=2022&segment=12">
         Federal Election Commission</a></p>
 """, unsafe_allow_html=True)
+st.write("*Note: This includes data regarding candidates running for representative and candidates\
+         running for delegate. Since there wasn't an election for Puerto Rico's Resident Commissioner\
+         in 2022, it was not included here. Delegates represent territories and have the same function as\
+         representatives, but do not vote on legislation. The Resident Commissioner and delegates do not\
+         count towards the 435 total representatives.*")

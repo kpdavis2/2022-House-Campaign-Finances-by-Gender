@@ -1,9 +1,6 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
-#import numpy as np
-#import geopandas as gpd
-#import plotly.express as px
 
 st.set_page_config(layout="wide")
 
@@ -32,18 +29,14 @@ house["Candidate"] = house["Candidate"].str.replace("Ms.", '')
 house["Candidate"] = house["Candidate"].str.replace("Mrs.", '')
 house["Candidate"] = house["Candidate"].str.replace("Miss.", '')
 house["Candidate"] = house["Candidate"].str.replace("Rep.", '')
-### maybe we should try and make the candidate column go firstname lastname instead of last, first
-# BIG NEWS I THINK I DID IT
 # split candidate name into last, first, and suffix
 name_split = house['Candidate'].str.split(', ', expand=True, n=2)
 house['last_name'] = name_split[0]
 house['first_name'] = name_split[1]
 house['suffix'] = name_split[2]
-
 # put names together
 house['Candidate'] = house['first_name'] + ' ' + house['last_name'] \
     + house['suffix'].apply(lambda x: ', ' + x if pd.notna(x) else '')
-
 # drop columns
 house.drop(['first_name', 'last_name', 'suffix'], axis=1, inplace=True)
 ## END SETTING UP DATA
@@ -123,33 +116,35 @@ party_gender["Gender"] = party_gender["Gender"].str.replace("Female", 'Women')
 party_gender["Gender"] = party_gender["Gender"].str.replace("Male", 'Men')
 party_gender_win["Gender"] = party_gender_win["Gender"].str.replace("Female", 'Women')
 party_gender_win["Gender"] = party_gender_win["Gender"].str.replace("Male", 'Men')
+
+# for displaying number of candidates in each category
 # pivot and find sum of the number of candidates in each category
 pivot_df = party_gender.pivot_table(index='Party Group', columns='Gender', values='Number of Candidates', aggfunc='sum', fill_value=0)
 pivot_df_win = party_gender_win.pivot_table(index='Party Group', columns='Gender', values='Number of Candidates', aggfunc='sum', fill_value=0)
 # merge the pivot with the original dataframe on party group
-result_df = party_gender.merge(pivot_df, on='Party Group')
-result_df_win = party_gender_win.merge(pivot_df_win, on='Party Group')
+candidates_group = party_gender.merge(pivot_df, on='Party Group')
+candidates_group_win = party_gender_win.merge(pivot_df_win, on='Party Group')
 # rename columns
-result_df.rename(columns={'female': 'female_candidates', 'male': 'male_candidates'}, inplace=True)
-result_df_win.rename(columns={'female': 'female_candidates', 'male': 'male_candidates'}, inplace=True)
+candidates_group.rename(columns={'female': 'female_candidates', 'male': 'male_candidates'}, inplace=True)
+candidates_group_win.rename(columns={'female': 'female_candidates', 'male': 'male_candidates'}, inplace=True)
 # drop unnecessary columns
-result_df.drop(columns=['Number of Candidates', "Gender", "Sum Receipts"], inplace=True)
-result_df_win.drop(columns=['Number of Candidates', "Gender", "Sum Receipts"], inplace=True)
+candidates_group.drop(columns=['Number of Candidates', "Gender", "Sum Receipts"], inplace=True)
+candidates_group_win.drop(columns=['Number of Candidates', "Gender", "Sum Receipts"], inplace=True)
 # drop duplicate columns
-result_df.drop_duplicates(inplace=True)
-result_df_win.drop_duplicates(inplace=True)
+candidates_group.drop_duplicates(inplace=True)
+candidates_group_win.drop_duplicates(inplace=True)
 # fill nan values with 0
-result_df.fillna(0, inplace=True)
-result_df_win.fillna(0, inplace=True)
+candidates_group.fillna(0, inplace=True)
+candidates_group_win.fillna(0, inplace=True)
 # reset index
-result_df = result_df.reset_index(drop=True)
-result_df_win = result_df_win.reset_index(drop=True)
+candidates_group = candidates_group.reset_index(drop=True)
+candidates_group_win = candidates_group_win.reset_index(drop=True)
 
 # extract number of candidates in each category
 try:
     # make sure dataframe is lining up properly
-    if result_df.at[0, 'Party Group'] == "Democratic Party":
-        dw = result_df.at[0, 'Women']
+    if candidates_group.at[0, 'Party Group'] == "Democratic Party":
+        dw = candidates_group.at[0, 'Women']
     else:
         dw = 0
 # if there are no candidates in this category 
@@ -158,26 +153,26 @@ except KeyError:
 try:
     # if selected state/district has no democratic candidates, row 0 will  
     # be republican party, so check for that
-    if result_df.at[0, 'Party Group'] == "Republican Party":
-        rw = result_df.at[0, 'Women']
-    elif result_df.at[1, 'Party Group'] == "Republican Party":
-        rw = result_df.at[1, 'Women']
+    if candidates_group.at[0, 'Party Group'] == "Republican Party":
+        rw = candidates_group.at[0, 'Women']
+    elif candidates_group.at[1, 'Party Group'] == "Republican Party":
+        rw = candidates_group.at[1, 'Women']
     else:
         rw = 0
 except KeyError:
     rw = 0 
 try:
-    if result_df.at[0, 'Party Group'] == "Democratic Party":
-        dm = result_df.at[0, 'Men'] 
+    if candidates_group.at[0, 'Party Group'] == "Democratic Party":
+        dm = candidates_group.at[0, 'Men'] 
     else:
         dm = 0
 except KeyError:
     dm = 0 
 try:
-    if result_df.at[0, 'Party Group'] == "Republican Party":
-       rm = result_df.at[0, 'Men']  
-    elif result_df.at[1, 'Party Group'] == "Republican Party":
-        rm = result_df.at[1, 'Men']
+    if candidates_group.at[0, 'Party Group'] == "Republican Party":
+       rm = candidates_group.at[0, 'Men']  
+    elif candidates_group.at[1, 'Party Group'] == "Republican Party":
+        rm = candidates_group.at[1, 'Men']
     else:
         rm = 0 
 except KeyError:
@@ -208,7 +203,6 @@ gender_split = alt.Chart(party_gender).mark_bar().encode(
     y = alt.Y('Sum Receipts:Q', axis = alt.Axis(title = 'Sum Receipts ($)')),
     column = alt.Column('Party Group:N', title = "Campaign Receipts by Party and Gender"),
     color = alt.Color('Party Group:N', scale = colors),
-    # this would be cool to be a sentence but idk if thats in the cards for us
     tooltip = ['Number of Candidates', 'Sum Receipts']
 ).properties(
     width = 115 
@@ -297,6 +291,7 @@ else:
         max_amount_win1 = rep_win.at[0, 'From Individuals']
         max_amount_win2 = rep_win.at[0, 'From PACs and Committees']
         max_amount_win = max(max_amount_win1, max_amount_win2)
+# democratic candidates
 categories_dem = alt.Chart(dem).mark_bar().encode(
     x = alt.X('Category:N', axis=alt.Axis(title = None)),
     y = alt.Y('Amount ($):Q', scale=alt.Scale(domain = (0, max_amount))),
@@ -311,6 +306,7 @@ categories_dem = alt.Chart(dem).mark_bar().encode(
 ).configure_legend(
     disable = True
 )
+# republican candidates
 categories_rep = alt.Chart(rep).mark_bar().encode(
     x = alt.X('Category:N', axis = alt.Axis(title = None)),
     y = alt.Y('Amount ($):Q', scale = alt.Scale(domain = (0, max_amount))),
@@ -325,6 +321,7 @@ categories_rep = alt.Chart(rep).mark_bar().encode(
 ).configure_legend(
     disable = True
 )
+# elected democrats
 categories_dem_win = alt.Chart(dem_win).mark_bar().encode(
     x = alt.X('Category:N', axis = alt.Axis(title = None)),
     y = alt.Y('Amount ($):Q', scale = alt.Scale(domain = (0, max_amount_win))),
@@ -339,6 +336,7 @@ categories_dem_win = alt.Chart(dem_win).mark_bar().encode(
 ).configure_legend(
     disable=True
 )
+# elected republicans
 categories_rep_win = alt.Chart(rep_win).mark_bar().encode(
     x = alt.X('Category:N', axis = alt.Axis(title = None)),
     y = alt.Y('Amount ($):Q', scale = alt.Scale(domain = (0, max_amount_win))),
@@ -353,6 +351,7 @@ categories_rep_win = alt.Chart(rep_win).mark_bar().encode(
 ).configure_legend(
     disable=True
 )
+
 st.write("While women raised more on average overall, in the 2022 House election,\
         it was in different categories. Even though there are several PACs dedicated\
          to electing women into office, PACs generally donate more to men than they\
@@ -362,6 +361,7 @@ st.write("Additionally, Democratic women tend to receive more money from PACs th
          Republican women. This may be because there are much fewer incumbent Republican\
          women than incumbent Democratic women. [[1]](#sources) Also, most of the PACs focused on women\
          donate to Democratic candidates. [[3]](#sources)")
+
 tab1, tab2 = st.tabs(["All Candidates", "Elected Candidates"])
 with tab1:
     col1, col2 = st.columns(2)

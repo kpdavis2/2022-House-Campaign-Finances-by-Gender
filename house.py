@@ -364,12 +364,16 @@ st.write("Additionally, Democratic women tend to receive more money from PACs th
 
 tab1, tab2 = st.tabs(["All Candidates", "Elected Candidates"])
 with tab1:
+    st.markdown("<p style='text-align: center;'>Campaign Receipts by Contribution\
+                 Category</p>", unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
         st.altair_chart(categories_dem)
     with col2:
         st.altair_chart(categories_rep)
 with tab2:
+    st.markdown("<p style='text-align: center;'>Campaign Receipts by Contribution\
+                 Category</p>", unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
         st.altair_chart(categories_dem_win)

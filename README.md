@@ -1,6 +1,6 @@
 # 2022 House Campaign Finances by Gender
 ## Streamlit Application Link
-[Explore the Streamlit App](https://house-campaign-by-gender.streamlit.app/)
+[Link to Streamlit App](https://house-campaign-by-gender.streamlit.app/)
 
 ## Introduction
 I wanted to explore the campaign fundraising patterns of political parties in the 2022 U.s. House of Representatives. I also wanted to explore the gender gap in fundraising.

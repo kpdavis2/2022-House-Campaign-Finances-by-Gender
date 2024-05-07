@@ -384,7 +384,7 @@ with tab2:
 
 st.markdown("""
     <h4 id="Source1">Sources</h4>
-    <p>[1] <a href = "https://www.theascendfund.org/post/cost-of-success-political-fundraising-as-a-barrier-to-equity#viewer-4rgb0">
+    <p>[1] <a href = "https://www.theascendfund.org/post/cost-of-success-political-fundraising-as-a-barrier-to-equity">
         The Ascend Fund: Cost of Success – Political Fundraising as a Barrier to Equity</a></p>
     <p>[2] <a href = "https://fivethirtyeight.com/features/money-and-elections-a-complicated-love-story/">
         FiveThirtyEight: How Money Affects Elections</a></p>

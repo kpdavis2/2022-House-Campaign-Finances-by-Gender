@@ -363,7 +363,7 @@ st.write("Additionally, Democratic women tend to receive more money from PACs th
          women than incumbent Democratic women. [[1]](#sources) Also, most of the PACs focused on women\
          donate to Democratic candidates. [[3]](#sources)")
 st.sidebar.write("*If a chart is blank, there were no candidates that ran in that\
-                  state/district that were a part of the group the chart is showing.*")
+                  state/district that were a part of the group represented by the chart.*")
 tab1, tab2 = st.tabs(["All Candidates", "Elected Candidates"])
 with tab1:
     st.markdown("<p style='text-align: center;'>Campaign Receipts by Contribution\

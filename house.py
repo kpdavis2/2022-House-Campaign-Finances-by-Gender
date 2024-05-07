@@ -298,7 +298,7 @@ categories_dem = alt.Chart(dem).mark_bar().encode(
     y = alt.Y('Amount ($):Q', scale=alt.Scale(domain = (0, max_amount))),
     column = alt.Column('Gender:N', title = "Democratic Party"),
     color = alt.Color('Party Group:N', scale = colors),
-    tooltip = ['Number of Candidates', 'Amount ($):Q']
+    tooltip = ['Number of Candidates', 'Category:N','Amount ($):Q']
 ).transform_fold(
     as_ = ['Category', 'Amount ($)'],
     fold = ['From Individuals', 'From PACs and Committees', 'From Candidate']
@@ -313,7 +313,7 @@ categories_rep = alt.Chart(rep).mark_bar().encode(
     y = alt.Y('Amount ($):Q', scale = alt.Scale(domain = (0, max_amount))),
     column = alt.Column('Gender:N', title = "Republican Party"),
     color = alt.Color('Party Group:N', scale = colors),
-    tooltip = ['Number of Candidates', 'Amount ($):Q']
+    tooltip = ['Number of Candidates', 'Category:N','Amount ($):Q']
 ).transform_fold(
     as_ = ['Category', 'Amount ($)'],
     fold = ['From Individuals', 'From PACs and Committees', 'From Candidate']
@@ -328,7 +328,7 @@ categories_dem_win = alt.Chart(dem_win).mark_bar().encode(
     y = alt.Y('Amount ($):Q', scale = alt.Scale(domain = (0, max_amount_win))),
     column = alt.Column('Gender:N', title = "Democratic Party"),
     color = alt.Color('Party Group:N', scale = colors),
-    tooltip = ['Number of Candidates', 'Amount ($):Q']
+    tooltip = ['Number of Candidates', 'Category:N','Amount ($):Q']
 ).transform_fold(
     as_ = ['Category', 'Amount ($)'],
     fold = ['From Individuals', 'From PACs and Committees', 'From Candidate']
@@ -343,7 +343,7 @@ categories_rep_win = alt.Chart(rep_win).mark_bar().encode(
     y = alt.Y('Amount ($):Q', scale = alt.Scale(domain = (0, max_amount_win))),
     column = alt.Column('Gender:N', title = "Republican Party"),
     color = alt.Color('Party Group:N', scale = colors),
-    tooltip = ['Number of Candidates', 'Amount ($):Q']
+    tooltip = ['Number of Candidates', 'Category:N','Amount ($):Q']
 ).transform_fold(
     as_ = ['Category', 'Amount ($)'],
     fold = ['From Individuals', 'From PACs and Committees', 'From Candidate']

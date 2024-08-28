@@ -3,7 +3,7 @@
 [Link to Streamlit App](https://house-campaign-by-gender.streamlit.app/)
 
 ## Introduction
-I wanted to explore the campaign fundraising patterns of political parties in the 2022 U.s. House of Representatives. I also wanted to explore the gender gap in fundraising.
+I wanted to explore the campaign fundraising patterns of political parties in the 2022 U.S. House of Representatives. I also wanted to explore the gender gap in fundraising.
 This app shows the number of women and men running in each party, a bar chart with campaign receipts by party and gender, and the contributions by category by party and gender. All of this can be filtered by state and district.
 
 ## Data/operation abstraction design
